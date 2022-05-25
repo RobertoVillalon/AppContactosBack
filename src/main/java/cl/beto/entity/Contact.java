@@ -1,4 +1,4 @@
-package cl.beto.model;
+package cl.beto.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
