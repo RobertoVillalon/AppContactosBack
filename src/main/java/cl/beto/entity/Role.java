@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.SQLInsert;
 
 import cl.beto.enums.RoleName;
 import lombok.Getter;

@@ -88,13 +88,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                         .permitAll()
-                    .antMatchers("/api/login","/api/register")
-                        .permitAll()
                     .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
                         .permitAll()
                     .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**")
                         .permitAll()
-                    .antMatchers("api/users/images/")
+                    .antMatchers("/api/users/images/")
+                    	.permitAll()
+                	.antMatchers("/swagger-ui/*", "/swagger-ui.html", "/webjars/**", "/v2/**", "/swagger-resources/**")
                     	.permitAll()
                     .anyRequest()
                         .authenticated();

@@ -3,7 +3,6 @@ package cl.beto.rest;
 import java.net.URI;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -28,7 +27,6 @@ import cl.beto.enums.RoleName;
 import cl.beto.exception.AppException;
 import cl.beto.exception.UserException;
 import cl.beto.payloads.ApiResponse;
-import cl.beto.payloads.JwtAuthenticationResponse;
 import cl.beto.payloads.LoginRequest;
 import cl.beto.payloads.SignUpRequest;
 import cl.beto.repository.IRoleRepository;
@@ -61,6 +59,7 @@ public class AuthController {
     
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    	
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsernameOrEmail(),
@@ -82,6 +81,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+    	
         if(userRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity<Object>(new ApiResponse(false, "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);
@@ -96,14 +96,14 @@ public class AuthController {
         User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(), signUpRequest.getPassword());
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
+        
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new AppException("User Role not set."));
 
         user.setRoles(Collections.singleton(userRole));
 
         User result = userRepository.save(user);
-
+        
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/users/{username}")
                 .buildAndExpand(result.getUsername()).toUri();
