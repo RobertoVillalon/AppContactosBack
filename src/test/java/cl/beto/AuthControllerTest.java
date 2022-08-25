@@ -21,7 +21,6 @@ import cl.beto.rest.UserController;
 @ExtendWith(SpringExtension.class) 
 @SpringBootTest
 @AutoConfigureMockMvc
-
 public class AuthControllerTest{
 
 	@Autowired
